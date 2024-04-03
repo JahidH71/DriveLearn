@@ -1,1 +1,8 @@
-<p>login works!</p>
+<div class="login-page">
+  <div class="text-page">
+    <app-header-button (typeOfAcount)="typeOfAccount($event)"></app-header-button>
+    <h1 class="mt-2">Already have an Account?</h1>
+    <p>Login here</p>
+  </div>
+  <app-auth-form></app-auth-form>
+</div>

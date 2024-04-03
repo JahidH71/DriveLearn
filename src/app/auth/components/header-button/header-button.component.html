@@ -1,0 +1,6 @@
+<h2>Drive-Learn Web Application</h2>
+<p>Sign Up/Sign In</p>
+<div class="text-center mt-3">
+  <button type="submit" class="btn btn-light" (click)="selectAccountType(1)">Instructor</button>
+  <button type="submit" class="btn btn-light custom-btn" [ngStyle]="{'background': accountType == 2? 'green':''}" (click)="selectAccountType(2)">Student</button>
+</div>
