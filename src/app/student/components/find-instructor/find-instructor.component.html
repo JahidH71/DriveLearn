@@ -1,0 +1,63 @@
+<app-header [title]="title"></app-header>
+
+<div class="row mt-4">
+    <div class="form_page">
+      <h1 style="text-align: center;">Schedule Your Lessons</h1>
+      <p style="text-align: center;">Manage your lessons efficiently</p>
+        <div class="form-group mt-1">
+            <label for="location">Location</label>
+            <input class="form-control" id="location" placeholder="Enter Zip Code here" type="text" [(ngModel)] = "zipCode"/>
+        </div>
+        <div class="form-group mt-1">
+            <label for="availability">Availability</label>
+            <input class="form-control" id="location" placeholder="Select Prefered Time" type="time" [(ngModel)] = "availableTime"/>
+        </div>
+        <div class="form-group mt-1">
+            <label for="ratings">Ratings</label>
+            <input class="form-control" id="ratings" placeholder="Enter rating here" type="text" [(ngModel)] = "rating"/>
+        </div>
+        <div class="mt-2" style="text-align: center">
+          <button class="btn btn-dark">Submit</button>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="row instructor-block mt-5">
+    <div class="col-6" style="text-align: center">
+      <h2>Upcoming Lessons</h2>
+    </div>
+    <div class="col-6">
+      <div class="student-record">
+        <div class="col-6" style="text-align: center">
+          <img
+          class="circle-image"
+            width="70px"
+            height="70px"
+            src="assets/teacher-svgrepo-com.svg"
+            alt="assets/non.jpg"
+          />
+          <h5 class="mt-1"> John Doe</h5>
+          <p>5 years of Experience</p>
+          <h5>4.8 rating</h5>
+        </div>
+        <div class="col-6" style="text-align: center">
+          <img
+            class="circle-image"
+            width="70px"
+            height="70px"
+            src="assets/teacher-svgrepo-com.svg"
+            alt="assets/non.jpg"
+          />
+          <h5 class="mt-1">Susan Smith</h5>
+          <p >Flexible schedule</p>
+          <h5>4.9 rating</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <app-map></app-map>
+  </div>
+  

@@ -1,0 +1,70 @@
+.banner{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 35px;
+}
+.book-btns{
+  display: flex;
+    gap: 5px;
+}
+.banner-heading{
+  font-size: 40px;
+  font-weight: 700;
+line-height: 48px;
+color: white;
+}
+.transparent-button {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.banner-subheading{
+  font-size: 16px;
+  font-weight: 400;
+line-height: 24px;
+color: white;
+}
+
+.booked-lesson{
+  font-size: 40px;
+  font-weight: 700;
+line-height: 48px;
+color: black;
+padding: 97px;
+}
+.lesson-list{
+  display: flex;
+    gap: 118px;
+}
+.lesson-progress{
+  font-weight: 500;
+    font-size: 28px;
+    line-height: 36px;
+}
+
+.educational-content{
+  font-size: 40px;
+  font-weight: 700;
+line-height: 48px;
+color: black;
+
+}
+
+.form_page{
+  margin: 20px;
+    transform: translate(50%);
+    width: 50%;
+}
+.row{
+  width: 100%;
+}
+.student-record{
+  display: flex;
+  justify-content: center;
+  min-height: 170px;
+  /* border: 0.5px solid #b3b1b1;
+  border-radius: 5px; */
+  padding: 10px
+}

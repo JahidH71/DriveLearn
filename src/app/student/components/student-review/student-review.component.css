@@ -1,0 +1,22 @@
+.row {
+    width: 100%;
+}
+.instructor-block {
+    display: flex;
+    align-items: center;
+}
+.gray-box {
+    background-color: #ccc;
+    width: 70%;
+    height: 300px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.student-record{
+    display: flex;
+    justify-content: center;
+    min-height: 170px;
+    /* border: 0.5px solid #b3b1b1;
+    border-radius: 5px; */
+    padding: 10px
+}
