@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-header-button',
   templateUrl: './header-button.component.html',
-  styleUrl: './header-button.component.css'
+  styleUrls: ['./header-button.component.css']
 })
 export class HeaderButtonComponent {
   accountType:any = 2;

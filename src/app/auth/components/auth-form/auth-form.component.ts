@@ -2,18 +2,19 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
-import { error } from 'console';
-
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 @Component({
   selector: 'app-auth-form',
   templateUrl: './auth-form.component.html',
-  styleUrl: './auth-form.component.css'
+  styleUrls: ['./auth-form.component.css']
 })
 export class AuthFormComponent implements OnInit{
   @Input() type:any;
+  @Input() isLogin:any;
   authForm!: FormGroup
-  constructor(private route:Router,private fb:FormBuilder,public angularFireAuth: AngularFireAuth){}
+  constructor(private route:Router,private fb:FormBuilder,public angularFireAuth: AngularFireAuth,private firestore: AngularFirestore,){}
   ngOnInit(): void {
+    console.log(this.type)
     this.authForm = this.fb.group({
       email: ['', [Validators.required,Validators.email]],
       password: ['',[Validators.required,Validators.minLength(8)]]
@@ -27,21 +28,35 @@ export class AuthFormComponent implements OnInit{
   }
   onSubmit(){
     if(this.authForm.valid){
-      this.register()
+      if(this.isLogin){
+        this.login()
+      }
+      else {
+        this.SignUp()
+      }
     }
   }
   register1(){
-    this.angularFireAuth.createUserWithEmailAndPassword(this.authForm.value.email,this.authForm.value.password)
-    .then((user:any)=>{
-        console.log('user.....',user);
-        localStorage.setItem('authToken', user.user.getIdToken());
-        console.log('Registration successful:', user);
-      }
-    )
-    .catch((error)=>{
-      console.log('errorr....',error)
-    })
+   this.angularFireAuth.createUserWithEmailAndPassword(this.authForm.value.email, this.authForm.value.password)
+  .then((result) => {
+    if (result && result.user) {
+      // Add additional user information to Firestore
+      return this.firestore.collection('users').doc(result.user.uid).set({
+        accountType: this.type
+      });
+    } else {
+      throw new Error('User is null');
+    }
+  })
+  .then(() => {
+    // Redirect to the desired page after successful sign-up
+    this.route.navigate(['/dashboard']);
+  })
+  .catch((error) => {
+    console.log('Error signing up:', error);
+  });
   }
+
 
   register() {
     this.angularFireAuth.createUserWithEmailAndPassword(this.authForm.value.email, this.authForm.value.password)
@@ -74,20 +89,58 @@ export class AuthFormComponent implements OnInit{
         console.error('Registration failed:', error);
       });
   }
-  login(){
+  login() {
     this.angularFireAuth.signInWithEmailAndPassword(this.authForm.value.email, this.authForm.value.password)
-    .then((userProfile:any)=>{
-      console.log(userProfile)
-      localStorage.setItem('userProfile', userProfile);
-      if(this.type == 1){
-        this.route.navigate(['/instructor'])
-      }
-      else this.route.navigate(['/student'])
-      }
-    )
-    .catch((error)=>{
-
-    })
+      .then((userCredential:any) => {
+        // Access the user's account type from Firestore
+        this.firestore.collection('users').doc(userCredential.user.uid).get()
+          .subscribe((doc:any) => {
+            if (doc.exists) {
+              const accountType = doc.data().accountType;
+              if (accountType === 'instructor') {
+                this.route.navigate(['/instructor']);
+              } else {
+                this.route.navigate(['/student']);
+              }
+            } else {
+              console.log('User document does not exist');
+              // Handle error here, e.g., show an error message to the user
+            }
+          });
+      })
+      .catch((error) => {
+        console.log('Error logging in:', error);
+        // Handle error here, e.g., show an error message to the user
+      });
   }
-  
+
+  SignUp() {
+     this.angularFireAuth
+      .createUserWithEmailAndPassword(this.authForm.value.email, this.authForm.value.password)
+      .then((result) => {
+        /* Call the SendVerificaitonMail() function when new user sign 
+        up and returns promise */
+        // this.SendVerificationMail();
+        this.SetUserData(result.user);
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
+  SetUserData(user: any) {
+    const userRef: AngularFirestoreDocument<any> = this.firestore.doc(
+      `users/${user.uid}`
+    );
+    const userData = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified,
+      accountType: this.type
+    };
+    return userRef.set(userData, {
+      merge: true,
+    });
+  }
 }
