@@ -1,12 +1,4 @@
-.gray-box {
-    background-color: #ccc;
-    width: 70%;
-    height: 200px;
-    padding: 20px;
-    box-sizing: border-box;
-}
 .instructor-block {
-    margin: 20px;
     display: flex;
     align-items: center;
 }
@@ -29,8 +21,8 @@
     border-radius: 10px; /* Optional: Add rounded corners */
 }
 .circle-image {
-    width: 40px; /* Set the desired width */
-    height: 40px; /* Set the desired height */
+    width: 70px; /* Set the desired width */
+    height: 70px; /* Set the desired height */
     object-fit: cover; /* Maintain aspect ratio and cover container */
     border-radius: 50%; /* Make the image circular */
 }
@@ -50,4 +42,12 @@
 .student-inner:hover {
     background: lightblue;
     cursor: pointer;
+}
+.form_page {
+    margin: 20px;
+    transform: translate(50%);
+    width: 50%;
+}
+.row{
+    width: 100%;
 }
