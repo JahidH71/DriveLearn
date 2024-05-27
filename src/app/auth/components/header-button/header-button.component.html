@@ -2,5 +2,5 @@
 <p>Sign Up/Sign In</p>
 <div class="text-center mt-3">
   <button type="submit" class="btn btn-light" [ngStyle]="{'background': accountType == 1? 'green':''}" (click)="selectAccountType(1)">Instructor</button>
-  <button type="submit" class="btn btn-light custom-btn" [ngStyle]="{'background': accountType == 2? 'green':''}" (click)="selectAccountType(2)">Student</button>
+  <button type="submit" class="btn btn-light" style="margin-left: 5px;" [ngStyle]="{'background': accountType == 2? 'green':''}" (click)="selectAccountType(2)">Student</button>
 </div>

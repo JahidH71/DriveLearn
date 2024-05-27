@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 @Component({
@@ -12,13 +12,38 @@ export class AuthFormComponent implements OnInit{
   @Input() type:any;
   @Input() isLogin:any;
   authForm!: FormGroup
+  errorMessage:any;
   constructor(private route:Router,private fb:FormBuilder,public angularFireAuth: AngularFireAuth,private firestore: AngularFirestore,){}
   ngOnInit(): void {
     console.log(this.type)
-    this.authForm = this.fb.group({
-      email: ['', [Validators.required,Validators.email]],
-      password: ['',[Validators.required,Validators.minLength(8)]]
+    if(this.isLogin) {
+      this.authForm = this.fb.group({
+        email: ['', [Validators.required,Validators.email]],  
+        password: ['',[Validators.required,Validators.minLength(5)]]
     })
+    }
+    else if (this.type == 1) {
+      this.authForm = this.fb.group({
+        email: ['', [Validators.required,Validators.email]],
+        firstName: ['',[Validators.required,Validators.minLength(3)]],
+        lastName: ['',[Validators.required,Validators.minLength(3)]],
+        mobileNumber: ['',[Validators.required]],
+        password: ['',[Validators.required,Validators.minLength(5)]],
+        cost: ['',[Validators.required]],
+        address: ['',[Validators.required]],
+        timing: ['',[Validators.required]]
+      })
+    }
+    else {
+      this.authForm = this.fb.group({
+        email: ['', [Validators.required,Validators.email]],
+        firstName: ['',[Validators.required,Validators.minLength(3)]],
+        lastName: ['',[Validators.required,Validators.minLength(3)]],
+        mobileNumber: ['',[Validators.required]],
+        password: ['',[Validators.required,Validators.minLength(5)]],
+      })
+    }
+    
   }
   navigate(){
     if(this.type)
@@ -36,60 +61,12 @@ export class AuthFormComponent implements OnInit{
       }
     }
   }
-  register1(){
-   this.angularFireAuth.createUserWithEmailAndPassword(this.authForm.value.email, this.authForm.value.password)
-  .then((result) => {
-    if (result && result.user) {
-      // Add additional user information to Firestore
-      return this.firestore.collection('users').doc(result.user.uid).set({
-        accountType: this.type
-      });
-    } else {
-      throw new Error('User is null');
-    }
-  })
-  .then(() => {
-    // Redirect to the desired page after successful sign-up
-    this.route.navigate(['/dashboard']);
-  })
-  .catch((error) => {
-    console.log('Error signing up:', error);
-  });
-  }
 
 
-  register() {
-    this.angularFireAuth.createUserWithEmailAndPassword(this.authForm.value.email, this.authForm.value.password)
-      .then((userCredential: any) => {
-        const user1 = userCredential.user;
-  
-        // Update user profile with custom claims
-        return user1.getIdToken().then((idToken:any) => {
-          // Set custom claims
-          return this.angularFireAuth.currentUser!.then((user:any) => {
-              // Set custom claims for admin users
-            user.multiFactor.user.accountType = this.type;
-            // Update user profile with custom claims
-            return user.getIdToken(true).then(() => {
-              this.angularFireAuth.updateCurrentUser
-              return this.angularFireAuth.updateCurrentUser(user);
-            });
-          });
-        }).then(() => {
-          // Save the token in local storage
-          localStorage.setItem('authToken', userCredential.user.getIdToken());
-          if(this.type == 1){
-            this.route.navigate(['/instructor'])
-          }
-          else this.route.navigate(['/student'])
-          console.log('Registration successful:', user1);
-        });
-      })
-      .catch((error) => {
-        console.error('Registration failed:', error);
-      });
-  }
+
+
   login() {
+    this.errorMessage = '';
     this.angularFireAuth.signInWithEmailAndPassword(this.authForm.value.email, this.authForm.value.password)
       .then((userCredential:any) => {
         // Access the user's account type from Firestore
@@ -97,7 +74,13 @@ export class AuthFormComponent implements OnInit{
           .subscribe((doc:any) => {
             if (doc.exists) {
               const accountType = doc.data().accountType;
-              if (accountType === 'instructor') {
+              localStorage.setItem('authToken', userCredential.user.getIdToken());
+              localStorage.setItem('user_id', userCredential.user.uid);
+              localStorage.setItem('accountType', accountType);
+              if(userCredential.user.teacherId) {
+                localStorage.setItem('teacherId', userCredential.user.teacherId);
+              }
+              if (accountType == 1) {
                 this.route.navigate(['/instructor']);
               } else {
                 this.route.navigate(['/student']);
@@ -109,7 +92,7 @@ export class AuthFormComponent implements OnInit{
           });
       })
       .catch((error) => {
-        console.log('Error logging in:', error);
+        this.errorMessage = 'Your provided Credentials are Wrong or Something went wrong'
         // Handle error here, e.g., show an error message to the user
       });
   }
@@ -118,10 +101,8 @@ export class AuthFormComponent implements OnInit{
      this.angularFireAuth
       .createUserWithEmailAndPassword(this.authForm.value.email, this.authForm.value.password)
       .then((result) => {
-        /* Call the SendVerificaitonMail() function when new user sign 
-        up and returns promise */
-        // this.SendVerificationMail();
         this.SetUserData(result.user);
+        this.route.navigate(['/login'])
       })
       .catch((error) => {
         window.alert(error.message);
@@ -134,10 +115,17 @@ export class AuthFormComponent implements OnInit{
     const userData = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
+      displayName: this.authForm.value.firstName + ' ' + this.authForm.value.lastName,
+      first_name: this.authForm.value.firstName,
+      last_name: this.authForm.value.lastName,
+      mobile_number: this.authForm.value.mobileNumber, 
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
-      accountType: this.type
+      accountType: this.type,
+      cost: this.type == 1 ? this.authForm.value.cost : null,
+      address: this.type == 1 ? this.authForm.value.address : null,
+      timing: this.type == 1 ? this.authForm.value.timing : null,
+
     };
     return userRef.set(userData, {
       merge: true,

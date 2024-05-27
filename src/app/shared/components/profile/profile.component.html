@@ -1,0 +1,99 @@
+<!-- add-event-modal.component.html -->
+
+<div class="modal-body">
+    
+<div class="row" style="text-align: center;">
+    <div style="text-align: center;">
+        <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+        <img
+            (click)="updateImage()"
+            [ngStyle]="{'cursor': fromheader?'pointer':'none'}"
+          width="70px"
+          height="70px"
+          [src]="imageUrl?imageUrl:'assets/cal_icon.png'"
+          alt="assets/non.jpg"
+        />
+    </div>
+    <ng-container *ngIf="!fromheader">
+        <div class="col-6">
+            <h5>First Name:</h5>
+        </div>
+        <div class="col-6">
+            <h5>{{userInfo.first_name}}</h5>
+        </div>
+        <div class="col-6">
+            <h5>Last Name:</h5>
+        </div>
+        <div class="col-6">
+            <h5>{{userInfo.last_name}}</h5>
+        </div>
+        <div class="col-6">
+            <h5>Email:</h5>
+        </div>
+        <div class="col-6">
+            <h5>{{userInfo.email}}</h5>
+        </div>
+        <div class="col-6">
+            <h5>Charge:</h5>
+        </div>
+        <div class="col-6">
+            <h5>{{userInfo.cost}} Pound</h5>
+        </div>
+        <div class="col-6">
+            <h5>Mobile Number:</h5>
+        </div>
+        <div class="col-6">
+            <h5>{{userInfo.mobile_number}}</h5>
+        </div>
+        <ng-container *ngIf="userInfo.timing">
+            <div class="col-6">
+                <h5>Available Timings:</h5>
+            </div>
+            <div class="col-6">
+                <h5>{{userInfo.timing}}</h5>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="userInfo.address">
+            <div class="col-6">
+                <h5>Address:</h5>
+            </div>
+            <div class="col-6">
+                <h5>{{userInfo.address}}</h5>
+            </div>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="fromheader">
+        <div class="form-group mt-1">
+            <label >First Name::</label>
+          <input class="form-control" id="j_recap" type="text" [(ngModel)] = "userInfo.first_name"/>
+        </div>
+        <div class="form-group mt-1">
+            <label >Last Name::</label>
+          <input class="form-control" id="j_recap" type="text" [(ngModel)] = "userInfo.last_name"/>
+        </div>
+        <div class="form-group mt-1">
+            <label >Email:</label>
+          <input class="form-control" id="j_recap" type="text" [(ngModel)] = "userInfo.email"/>
+        </div>
+        <ng-container *ngIf="userInfo.cost">
+            <div class="form-group mt-1">
+                <label >Charge:</label>
+              <input class="form-control" id="j_recap" type="text" [(ngModel)] = "userInfo.cost"/>
+            </div>
+        </ng-container>
+        <div class="form-group mt-1">
+            <label >Mobile Number:</label>
+          <input class="form-control" id="j_recap" type="text" [(ngModel)] = "userInfo.mobile_number"/>
+        </div>
+        <ng-container *ngIf="userInfo.timing">
+            <div class="form-group mt-1">
+                <label >Available Timings:</label>
+            <input class="form-control" id="j_recap" type="text" [(ngModel)] = "userInfo.timing"/>
+            </div>
+        </ng-container>
+    </ng-container>
+    <button *ngIf="fromheader" style="width: 100%;" class="btn btn-primary" (click)="update()">Update</button>
+    <button style="width: 100%;" class="mt-1 btn btn-light" (click)="cancel()">Close</button>
+</div>
+</div>
+

@@ -1,0 +1,16 @@
+.chat-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000; /* Ensure button is above other content */
+    background-color: white;
+    border: none;
+  }
+
+  .circle-image {
+    width: 50px; /* Set the desired width */
+    height: 50px; /* Set the desired height */
+}
+.modal-dialog{
+    width: 750px
+}

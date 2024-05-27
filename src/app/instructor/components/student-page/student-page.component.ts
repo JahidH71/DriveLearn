@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ProfileComponent } from 'src/app/shared/components/profile/profile.component';
+import { MainService } from 'src/app/shared/services/main.service';
 
 @Component({
   selector: 'app-student-page',
@@ -7,20 +9,37 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./student-page.component.css']
 })
 export class StudentPageComponent implements OnInit{
-  progressForm!: FormGroup
-  title:any = "Student Progess"
-  constructor(private fb: FormBuilder){
-    this.progressForm = this.fb.group({
-      lessonRecap: ['', Validators.required],
-      nextLesson: ['', Validators.required],
-    })
-  }
-  ngOnInit(): void {
-    
-  }
-  updateProgress(){
-    if(this.progressForm.valid){
-      console.log(this.progressForm.value)
+    user_id = localStorage.getItem('user_id');
+    users:any
+    studentList:any = []
+    modalRef!: BsModalRef;
+    isSubscribe: boolean = false
+    constructor(private modalService: BsModalService,private mainService:MainService) {}
+    ngOnInit(): void {
+        this.getStudents()
     }
-  }
+    openModal() {
+      this.modalRef = this.modalService.show(ProfileComponent);
+    }
+    getStudents() {
+            this.mainService.getAllUsers().subscribe(users=>{
+                this.users =  users
+                console.log(users)
+            })
+            console.log(this.users)
+            this.mainService.getSubscribedStudents(this.user_id).subscribe(data => {
+                console.log(data)
+              let usersList = data;
+              this.studentList = usersList.map((student:any) => {
+                const matchedUser = this.users.find((user:any) => user.uid == student.studentId);
+                if (matchedUser) {
+                    return {
+                        ...matchedUser,
+                        teacherId: student.teacherId // Adding teacherId to the result
+                    };
+                }
+            });
+            console.log('....',this.studentList)
+    })
+}
 }

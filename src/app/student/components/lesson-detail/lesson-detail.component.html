@@ -1,0 +1,108 @@
+<app-header></app-header>
+<header class="container-fluid bg-dark p-3 text-light">
+  <h1 class="text-center">Lesson History and Details</h1>
+  <p class="text-center">View your past lessons and details</p>
+</header>
+<main class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search lessons by keyword or date"
+          aria-label="Search lessons by keyword or date"
+          aria-describedby="button-addon2"
+        />
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          id="button-addon2"
+        >
+          Search
+        </button>
+      </div>
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="table-responsive">
+            <h2 class="mb-4">All Lessons</h2>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Lesson Date</th>
+                  <th scope="col">Instructor Name</th>
+                  <th scope="col">Lesson Type</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Add Review</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let lesson of allAvailableLessons;let i = index">
+                  <tr>
+                    <td>{{lesson.date}}</td>
+                    <td>{{lesson.instructor_name}}</td>
+                    <td>{{lesson.lesson_type}}</td>
+                    <td>{{lesson.status == 1?'Completed': 'In Progress'}}</td>
+                    <td>
+                      <a
+                        class="btn btn-primary btn-sm"
+                        role="button"
+                        (click)="viewDetail(i)"
+                        >View Details</a
+                      >
+                    </td>
+                    <td *ngIf="lesson.status">
+                      <a 
+                        class="btn btn-primary btn-sm"
+                        role="button"
+                        (click)="addReview(i)"
+                        >Post a review</a
+                      >
+                    </td>
+                    <td *ngIf="!lesson.status">Not Completed Yet</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="isViewDetails">
+      <h3>Lesson Details</h3>
+      <div class="card">
+        <div class="card-body">
+          <p><b>Lesson Date:</b> {{lessonDetail.date}}</p>
+          <p><b>Instructor Name:</b> {{lessonDetail.instructor_name}}</p>
+          <p><b>Lesson Type:</b> {{lessonDetail.lesson_type}}</p>
+          <p><b>Status:</b>{{lessonDetail.satus == 1?'Completed':'In Progress'}}</p>
+          <p><b>Lesson Description:</b> {{lessonDetail.description}}</p>
+          <!-- <p><b>Lesson Materials:</b></p> -->
+          <p><b>Rating: </b>{{lessonDetail.rating ? lessonDetail.rating : 'Not Available yet.'}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3" *ngIf="postReview">
+    <div class="card-body">
+      <h2>Lesson Feedback</h2>
+        <div class="mb-3">
+          <label for="rating" class="form-label">Rating:</label>
+          <select class="form-select" id="rating" aria-label="Rating" [(ngModel)]="rating">
+            <option selected>Select rating</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="comments" class="form-label">Comments:</label>
+          <textarea class="form-control" id="comments" rows="3" [(ngModel)]="comments" [ngModelOptions]="{standalone: true}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="postFeedback()">Submit</button>
+    </div>
+  </div>
+</main>

@@ -1,63 +1,64 @@
-<app-header [title]="title"></app-header>
-
-<div class="row mt-4">
-    <div class="form_page">
-      <h1 style="text-align: center;">Schedule Your Lessons</h1>
-      <p style="text-align: center;">Manage your lessons efficiently</p>
-        <div class="form-group mt-1">
-            <label for="location">Location</label>
-            <input class="form-control" id="location" placeholder="Enter Zip Code here" type="text" [(ngModel)] = "zipCode"/>
+<app-header></app-header>
+<header class="container-fluid  bg-dark p-3 text-light">
+    <h1 class="text-center">Filters</h1>
+    <p class="text-center">Refine your search</p>
+  </header>
+<main class="container mt-5">
+   
+    <div class="row">
+        <div class="col-md-3">
+            <div class="container">
+                <form>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label for="location" class="form-label">Location</label>
+                      <input type="text" class="form-control" id="location" placeholder="Search location" [(ngModel)]="location" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-12">
+                      <label for="rating" class="form-label">Rating</label>
+                      <select class="form-select" id="rating" [(ngModel)]="rating" [ngModelOptions]="{standalone: true}">
+                        <option value="all">All</option>
+                        <option value="4">4 stars or more</option>
+                        <option value="3">3 stars or more</option>
+                        <option value="2">2 stars or more</option>
+                        <option value="1">1 star or more</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label for="availability" class="form-label">Availability</label>
+                      <div class="row">
+                        <div class="col mt-2 mb-3">
+                          <input type="time" class="form-control" id="availability" placeholder="Select time" [(ngModel)]="timing" [ngModelOptions]="{standalone: true}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" (click)="getFilteredInstructor()">Search</button>
+                </form>
+              </div>  
         </div>
-        <div class="form-group mt-1">
-            <label for="availability">Availability</label>
-            <input class="form-control" id="location" placeholder="Select Prefered Time" type="time" [(ngModel)] = "availableTime"/>
-        </div>
-        <div class="form-group mt-1">
-            <label for="ratings">Ratings</label>
-            <input class="form-control" id="ratings" placeholder="Enter rating here" type="text" [(ngModel)] = "rating"/>
-        </div>
-        <div class="mt-2" style="text-align: center">
-          <button class="btn btn-dark">Submit</button>
+        <div class="col-md-9">
+            <h2 class="mb-4">Instructor Search Results</h2>
+            <p>View results based on your search filters</p>
+            <ng-container *ngFor="let user of searchedResults;let i = index;">
+              <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{user.displayName}}</h5>
+                    <p class="card-text">Location: {{user.address}}</p>
+                    <p class="card-text">Time: {{user.timing}}</p>
+                    <p class="card-text" *ngIf="user.rating">Rating: {{user.rating}}</p>
+                    <a class="btn btn-primary" (click)="openModal(i)">View Profile</a>
+                    <a *ngIf="!isSubscribe" class="btn btn-primary" style="margin-left: 10px;" (click)="subscribeToTeacher(user.uid)">Subscribe</a>
+                </div>
+            </div>
+            </ng-container>
+            <ng-container *ngIf="!searchedResults || searchedResults.length == 0">
+              <h5 style="text-align: center;margin:60px;">
+                {{displayText}}
+              </h5>
+            </ng-container>
         </div>
     </div>
-  </div>
-
-
-  <div class="row instructor-block mt-5">
-    <div class="col-6" style="text-align: center">
-      <h2>Upcoming Lessons</h2>
-    </div>
-    <div class="col-6">
-      <div class="student-record">
-        <div class="col-6" style="text-align: center">
-          <img
-          class="circle-image"
-            width="70px"
-            height="70px"
-            src="assets/teacher-svgrepo-com.svg"
-            alt="assets/non.jpg"
-          />
-          <h5 class="mt-1"> John Doe</h5>
-          <p>5 years of Experience</p>
-          <h5>4.8 rating</h5>
-        </div>
-        <div class="col-6" style="text-align: center">
-          <img
-            class="circle-image"
-            width="70px"
-            height="70px"
-            src="assets/teacher-svgrepo-com.svg"
-            alt="assets/non.jpg"
-          />
-          <h5 class="mt-1">Susan Smith</h5>
-          <p >Flexible schedule</p>
-          <h5>4.9 rating</h5>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row mt-5">
-    <app-map></app-map>
-  </div>
-  
+</main>

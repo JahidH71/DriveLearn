@@ -2,14 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './components/main/main.component';
 import { StudentPageComponent } from './components/student-page/student-page.component';
-import { LessonSchedulingComponent } from './components/lesson-scheduling/lesson-scheduling.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
+import { LessonDetailComponent } from './components/lesson-detail/lesson-detail.component';
+import { NotificationsComponent } from '../shared/components/notifications/notifications.component';
 
 const routes: Routes = [
   {path:'',component:MainComponent},
-  {path:'student/:id', component: StudentPageComponent},
-  {path:'schedule/:id', component: LessonSchedulingComponent},
-  {path:'reviews', component: ReviewsComponent},
+  {path:'students', component: StudentPageComponent},
+  {path:'review', component: ReviewsComponent},
+  {path:'lesson', component: LessonDetailComponent},
+  {path:'notification', component: NotificationsComponent},
 ];
 
 @NgModule({

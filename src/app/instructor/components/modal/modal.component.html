@@ -1,0 +1,70 @@
+<!-- add-event-modal.component.html -->
+
+<div class="modal-header">
+    <h4 class="modal-title" style="text-align: center;">{{isDelete?'Confirmation Required':isUpdateProgress?'Update Progress':createNew?'Create Lesson':'Update Lesson'}}</h4>
+</div>
+<div class="modal-body">
+    
+<div class="row" style="text-align: center;">
+    <div style="text-align: center;">
+        <ng-container *ngIf="!isDelete && !isUpdateProgress">
+            <!-- <div class="mb-3" *ngIf="!createNew">
+                <label for="name" class="form-label">Student Name</label>
+                <input type="text" class="form-control" id="name" [disabled]="true" [(ngModel)]="lesson.student_name">
+            </div> -->
+            <div class="mb-3">
+                <label for="rating" class="form-label">Select Student</label>
+                <select class="form-select" id="rating" [(ngModel)]="lesson.studentId">
+                    <option value="null">=--Select Student---</option>
+                    <ng-container *ngFor="let student of availableStudents">
+                        <option [value]="student.uid">{{student.displayName}}</option>
+                    </ng-container>
+                    
+                            
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Lesson Title</label>
+                <input type="text" class="form-control" id="name" [(ngModel)]="lesson.title">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Lesson Description:</label>
+                <textarea id="description" class="form-control" [(ngModel)]="lesson.description" name="description" rows="3"></textarea>
+              </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Lesson Date</label>
+                <input type="date" class="form-control" id="name" [(ngModel)]="lesson.date">
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Lesson Time</label>
+                <input type="time" class="form-control" id="name" [(ngModel)]="lesson.timing">
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Lesson Cost</label>
+                <input type="text" class="form-control" id="name" [(ngModel)]="lesson.cost">
+            </div>
+            <div class="mb-3">
+                <label for="rating" class="form-label">Lesson Type</label>
+                <select class="form-select" id="rating" [(ngModel)]="lesson.lesson_type">
+                            <option value="Theoretical">Theoretical</option>
+                            <option value="Practical">Practical</option>
+                </select>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="isUpdateProgress">
+            <div class="mb-3">
+                <label for="name" class="form-label">Lesson Title</label>
+                <input type="text" class="form-control" id="name" [(ngModel)]="lesson.progress">
+            </div>
+        </ng-container>
+        <div *ngIf="isDelete">
+            <h5>Are you sure you want to delete this lesson?</h5>
+        </div>
+        
+    
+    <button *ngIf="!isDelete || isUpdateProgress" class="btn btn-light mt-2" (click)="lessonEvent()">{{createNew?'Create Lesson':'Update Lesson'}}</button>
+    <button *ngIf="isDelete" class="btn btn-light mt-2" (click)="deleteLesson()">Delete</button>
+    <button class="btn btn-light mt-2" style="margin-left: 10px;" (click)="cancel()">Cancel</button>
+</div>
+</div>
+

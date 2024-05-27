@@ -1,0 +1,20 @@
+<!-- add-event-modal.component.html -->
+
+<div class="modal-header">
+    <h4 class="modal-title" style="text-align: center;">Select Payment Method</h4>
+</div>
+<div class="modal-body">
+    
+<div class="row" style="text-align: center;">
+    <div style="text-align: center;">
+        <label>Select Payment Method</label>
+        <div class="mt-2" style="display: flex;" *ngIf="!isDelete">
+            <button class="btn btn-light" [ngStyle]="{'background': selectedPayment == 'credit_card' ? 'mediumspringgreen' : ''}" (click)="selectedPayment = 'credit_card';bookLesson()">Credit Card</button>
+            <button class="btn btn-light" [ngStyle]="{'background': selectedPayment == 'debit_card' ? 'mediumspringgreen' : ''}" style="margin-left: 10px;" (click)="selectedPayment = 'debit_card';bookLesson()">Debit Card</button>
+            <button class="btn btn-light" [ngStyle]="{'background': selectedPayment == 'paypal' ? 'mediumspringgreen' : ''}" style="margin-left: 10px;" (click)="selectedPayment = 'paypal';bookLesson()">Paypal</button>
+        </div>
+    <button style="width: 100%;" class="btn btn-light mt-2" (click)="cancel()">Cancel</button>
+    <button style="width: 100%;" class="btn btn-danger mt-2" (click)="Delete()">Cancel</button>
+</div>
+</div>
+

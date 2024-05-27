@@ -7,7 +7,13 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/services/interceptors/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
 // import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { ChatComponent } from './shared/components/chat/chat.component';
+import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -16,8 +22,13 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     AppRoutingModule,
     AngularFireAuthModule,
+    BrowserAnimationsModule,
+    ModalModule.forRoot(),
+    ToastrModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireModule 
+    AngularFireModule,
+    AngularFireStorageModule,
+    SharedModule
   ],
   providers: [
     {

@@ -1,93 +1,37 @@
-<app-header [title]="title"></app-header>
-
-<div class="row mt-4">
-  <div class="col-12" style="text-align: center">
-    <h2>Pupil Record</h2>
-    <p>View detailed progress and lesson history</p>
-    <button class="btn btn-dark">Update Progress</button>
-  </div>
-</div>
-
-<div class="row instructor-block mt-5">
-  <div class="col-6" style="text-align: center">
-    <h2>Student Information</h2>
-  </div>
-  <div class="col-6">
-    <div class="student-record">
-      <div class="col-6" style="text-align: center">
-        <img
-          width="70px"
-          height="70px"
-          src="assets/teacher-svgrepo-com.svg"
-          alt="assets/non.jpg"
-        />
-        <p class="mt-1">Name</p>
-        <h5>John Deo</h5>
-      </div>
-      <div class="col-6" style="text-align: center">
-        <img
-          width="70px"
-          height="70px"
-          src="assets/cal_icon.png"
-          alt="assets/non.jpg"
-        />
-        <p class="mt-1">Last Lesson Date</p>
-        <h5>12/03/2022</h5>
-      </div>
+<app-header [isInstructor] = "true"></app-header>
+<header class="container-fluid  bg-dark p-3 text-light">
+    <h1 class="text-center">All Available Students</h1>
+  </header>
+<main class="container mt-5">
+   
+    <div class="row">
+        <div class="col-md-12">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search Student by Name"
+              aria-label="Search Student by Name"
+              aria-describedby="button-addon2"
+            />
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              id="button-addon2"
+            >
+              Search
+            </button>
+          </div>
+            <ng-container *ngFor="let lesson of studentList">
+              <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{lesson.displayName}}</h5>
+                    <p class="card-text">Booked Lessons: 3</p>
+                    <p class="card-text">Completed Lessons: 1</p>
+                    <a class="btn btn-primary" (click)="openModal()">View Profile</a>
+                </div>
+            </div>
+            </ng-container>
+        </div>
     </div>
-  </div>
-</div>
-
-<div class="row instructor-block mt-5">
-  <div class="col-6" style="text-align: center">
-    <h2>Lesson History</h2>
-  </div>
-  <div class="col-6">
-    <div class="student-record">
-      <div class="col-6" style="text-align: center">
-        <img
-          width="70px"
-          height="70px"
-          src="assets/teacher-svgrepo-com.svg"
-          alt="assets/non.jpg"
-        />
-        <h6>Lesson Take</h6>
-        <p class="mt-1">Complete Lessons</p>
-        <h5>5</h5>
-      </div>
-      <div class="col-6" style="text-align: center">
-        <img
-          width="70px"
-          height="70px"
-          src="assets/cal_icon.png"
-          alt="assets/non.jpg"
-        />
-        <h6>Payments</h6>
-        <h5>$455</h5>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="form_page">
-    <h1 style="text-align: center;">Update Progress</h1>
-    <form [formGroup] = "progressForm" (ngSubmit)="updateProgress()">
-      <div class="form-group mt-1">
-        <label for="l_recap">Lesson Recap</label>
-        <input class="form-control" id="j_recap" type="text" formControlName ="lessonRecap"/>
-      </div>
-
-      <div class="form-group mt-1">
-        <label for="next_step">Next Step</label>
-        <input class="form-control" id="next_step" type="text" formControlName ="nextLesson" />
-      </div>
-      <div class="mt-2" style="text-align: center">
-        <button class="btn btn-dark">Submit</button>
-      </div>
-    </form>
-  </div>
-</div>
-<!-- <div style="bottom: 0 !important; position: absolute; width: 100%"> -->
-<app-footer></app-footer>
-<!-- </div> -->
+</main>

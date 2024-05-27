@@ -1,0 +1,75 @@
+<div class="container">
+  <h3 class="text-center" style="margin-top: 20px;">Messaging</h3>
+  <div class="messaging">
+    <div class="inbox_msg">
+      <div class="inbox_people">
+        <div class="headind_srch">
+          <div class="recent_heading">
+            <h5>All Available Chats</h5>
+          </div>
+        </div>
+        <div class="inbox_chat">
+          <ng-container *ngFor="let user of users;let i = index">
+            <div class="chat_list" [ngClass]="{'active_chat': recipientId == user.id}">
+                <div class="chat_people" (click)="selectChat(user.id)">
+                  <div class="chat_img">
+                    <img
+                     class="circle-image"
+                      [src]="user.profileImage"
+                      (error)="handleImageError($event)"
+                    />
+                  </div>
+                  <div class="chat_ib">
+                    <h5>{{user.displayName}}<span class="chat_date">{{user.last_message_date}}</span></h5>
+                  </div>
+                </div>
+              </div>
+          </ng-container>
+
+        </div>
+      </div>
+      <div class="mesgs">
+        <div class="msg_history">
+            <ng-container *ngFor="let chat of messages">
+                <ng-container *ngIf="chat.senderId != user_id ">
+                    <div class="incoming_msg">
+                        <div class="incoming_msg_img">
+                          <img
+                            [src]="chat.userImage"
+                            (error)="handleImageError($event)"
+                          />
+                        </div>
+                        <div class="received_msg">
+                          <div class="received_withd_msg">
+                            <p>{{chat.message}}</p>
+                            <span class="time_date"> {{chat.date}}</span>
+                          </div>
+                        </div>
+                      </div>
+                </ng-container>
+                <ng-container *ngIf="chat.senderId == user_id ">
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                          <p>{{chat.message}}</p>
+                          <span class="time_date"> {{chat.date}}</span>
+                        </div>
+                      </div>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="recipientId && (!messages || (messages && messages.length == 0))">
+              <h5>Send a message and create a new Chat</h5>
+            </ng-container>
+            
+        </div>
+        <div class="type_msg">
+          <div class="input_msg_write">
+            <input type="text" class="write_msg" placeholder="Type a message" [(ngModel)]="newMessage"/>
+            <button class="msg_send_btn" type="button" (click)="sendMessage()">
+              <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

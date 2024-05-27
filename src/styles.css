@@ -1,4 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
-
+ 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.row{
+    width: 100%;
+}
+.custom-btn{
+    background-color: white !important;
+    color: black !important;
+}
+.instructor-block {
+    display: flex;
+    align-items: center;
+}
+/* .student-record{
+    display: flex;
+    justify-content: center;
+    min-height: 170px;
+     padding: 10px
+} */
+
+ /* Custom CSS for styling */
+ .lesson-card {
+    margin-bottom: 20px;
+}
+
+.lesson-filter {
+    margin-top: 20px;
+}
