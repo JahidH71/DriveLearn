@@ -22,26 +22,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="col-xl-6 col-sm-6 col-12">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body">
-            <div class="media d-flex">
-              <div class="media-body text-left">
-                <h3 class="danger">50%</h3>
-                <span>Progress</span>
-              </div>
-              <div class="align-self-center">
-                <i class="icon-direction danger font-large-2 float-right"></i>
-              </div>
-            </div>
-            <div class="progress mt-1 mb-0" style="height: 7px;">
-              <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 
   <main class="container mt-5">
@@ -65,20 +45,6 @@
           </div>
       </div>
       </ng-container>
-
-        <div style="text-align: center;" *ngIf="availableLessons.length == 0 && !subscribed">
-          <p>
-          You have not connected to any Instructor yet go and find your find your Instructor according to your need.
-          </p>
-          <button class="btn btn-primary" [routerLink]="['/student/find']">Find An Instructor</button>
-        </div>
-        <div style="text-align: center;" *ngIf="availableLessons.length == 0 && subscribed">
-          <p>
-          Your Instructor have not created any lesson for you, he/she may created a lesson for your very soon or you can go and chat with him/her.
-          </p>
-          
-        </div>
-        <!-- Add more lessons as needed -->
     </div>
 </main>
 </div>

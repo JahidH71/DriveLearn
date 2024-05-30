@@ -14,45 +14,6 @@ export class FindInstructorComponent {
   location:any;
   timing:any;
   rating:any
-//   searchedResults:any = [
-//     {
-//     lesson_no: 1,
-//     instructor_name: "John Doe",
-//     date: "May 2, 2024",
-//     time: "11:00 AM",
-//     cost: '30$',
-// status: 0,
-//     lesson_type: "Theoretical",
-//     description:'This is the description for the lesson',
-//     rating: '5',
-// location: 'house no 2 , street no: 4 , London'
-//     },
-//     {
-//     lesson_no: 2,
-//     instructor_name: "John Lee",
-//     date: "May 4, 2024",
-//     time: "11:00 AM",
-//     cost: '30$',
-// status: 0,
-//     lesson_type: "Theoretical",
-//     description:'This is the description for the lesson',
-//     rating: '4',
-// location: 'house no 2 , street no: 4 , Manchester'
-//     },
-//     {
-//     lesson_no: 3,
-//     instructor_name: "John Doe",
-//     date: "May 5, 2024",
-//     time: "11:00 AM",
-//     cost: '30$',
-// status: 0,
-//     lesson_type: "Practical",
-//     description:'This is the description for the lesson',
-//     rating: '4',
-// location: 'house no 2 , street no: 4 , London'
-//     },
-    
-//     ]
   user_id: any = 0; 
   searchedResults: any = []
   modalRef!: BsModalRef;

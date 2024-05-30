@@ -22,13 +22,13 @@
               Search
             </button>
           </div>
-            <ng-container *ngFor="let lesson of studentList">
+            <ng-container *ngFor="let lesson of studentList;let i = index">
               <div class="card mb-3">
                 <div class="card-body">
                     <h5 class="card-title">{{lesson.displayName}}</h5>
-                    <p class="card-text">Booked Lessons: 3</p>
-                    <p class="card-text">Completed Lessons: 1</p>
-                    <a class="btn btn-primary" (click)="openModal()">View Profile</a>
+                    <p class="card-text">Booked Lessons: {{lesson.bookedLesson || '0'}}</p>
+                    <p class="card-text">Completed Lessons: {{lesson.completedLesson || '0'}}</p>
+                    <a class="btn btn-primary" (click)="openModal(i)">View Profile</a>
                 </div>
             </div>
             </ng-container>

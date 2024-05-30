@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { MainService } from 'src/app/shared/services/main.service';
@@ -8,13 +8,21 @@ import { MainService } from 'src/app/shared/services/main.service';
   templateUrl: './payment-methods.component.html',
   styleUrls: ['./payment-methods.component.css']
 })
-export class PaymentMethodsComponent {
+export class PaymentMethodsComponent implements OnInit{
   selectedPayment:any;
   user_id = localStorage.getItem('user_id');
   lessonId: any;
-  isDelete:any
+  isDelete:any;
+  users:any
   constructor(public bsModalRef: BsModalRef,private toastr: ToastrService,private mainService:MainService) {}
-
+  ngOnInit(): void {
+    this.getUser()
+  }
+  getUser() {
+    this.mainService.getAllUsers().subscribe((user:any)=>{
+      this.users = user
+    })
+  }
   cancel() {
     this.bsModalRef.hide();
   }
@@ -29,10 +37,14 @@ export class PaymentMethodsComponent {
   bookLesson() {
     const lesson = {
       booked: true,
-      status: true
     };
     
     this.mainService.updateLesson(this.lessonId,lesson);
+    let currentUser = this.users.find((user:any)=>user.uid == this.user_id)
+    let bookedLesson = currentUser?.bookedLessons ? currentUser.bookedLessons : 0
+    this.mainService.updateUserInfo(this.user_id, {bookedLesson: bookedLesson + 1}).then(() => {
+      console.log('Profile updated successfully!');
+    });
     this.cancel();
   }
   Delete() {

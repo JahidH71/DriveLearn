@@ -12,6 +12,7 @@ export class AuthFormComponent implements OnInit{
   @Input() type:any;
   @Input() isLogin:any;
   authForm!: FormGroup
+  instructorForm!: FormGroup
   errorMessage:any;
   constructor(private route:Router,private fb:FormBuilder,public angularFireAuth: AngularFireAuth,private firestore: AngularFirestore,){}
   ngOnInit(): void {
@@ -22,18 +23,6 @@ export class AuthFormComponent implements OnInit{
         password: ['',[Validators.required,Validators.minLength(5)]]
     })
     }
-    else if (this.type == 1) {
-      this.authForm = this.fb.group({
-        email: ['', [Validators.required,Validators.email]],
-        firstName: ['',[Validators.required,Validators.minLength(3)]],
-        lastName: ['',[Validators.required,Validators.minLength(3)]],
-        mobileNumber: ['',[Validators.required]],
-        password: ['',[Validators.required,Validators.minLength(5)]],
-        cost: ['',[Validators.required]],
-        address: ['',[Validators.required]],
-        timing: ['',[Validators.required]]
-      })
-    }
     else {
       this.authForm = this.fb.group({
         email: ['', [Validators.required,Validators.email]],
@@ -43,6 +32,17 @@ export class AuthFormComponent implements OnInit{
         password: ['',[Validators.required,Validators.minLength(5)]],
       })
     }
+      this.instructorForm = this.fb.group({
+        email: ['', [Validators.required,Validators.email]],
+        firstName: ['',[Validators.required,Validators.minLength(3)]],
+        lastName: ['',[Validators.required,Validators.minLength(3)]],
+        mobileNumber: ['',[Validators.required]],
+        password: ['',[Validators.required,Validators.minLength(5)]],
+        cost: ['',[Validators.required]],
+        address: ['',[Validators.required]],
+        timing: ['',[Validators.required]]
+      })
+
     
   }
   navigate(){
@@ -52,7 +52,7 @@ export class AuthFormComponent implements OnInit{
       this.route.navigate(['/register'])
   }
   onSubmit(){
-    if(this.authForm.valid){
+    if((this.type == 1 && this.instructorForm.valid) || (this.authForm.valid && (this.type != 1 || this.isLogin))){
       if(this.isLogin){
         this.login()
       }
@@ -99,7 +99,7 @@ export class AuthFormComponent implements OnInit{
 
   SignUp() {
      this.angularFireAuth
-      .createUserWithEmailAndPassword(this.authForm.value.email, this.authForm.value.password)
+      .createUserWithEmailAndPassword(this.type == 1 ? this.instructorForm.value.email : this.authForm.value.email, this.type == 1 ? this.instructorForm.value.password : this.authForm.value.password)
       .then((result) => {
         this.SetUserData(result.user);
         this.route.navigate(['/login'])
@@ -112,19 +112,20 @@ export class AuthFormComponent implements OnInit{
     const userRef: AngularFirestoreDocument<any> = this.firestore.doc(
       `users/${user.uid}`
     );
+    let formData = this.type == 1 ? this.instructorForm : this.authForm
     const userData = {
       uid: user.uid,
       email: user.email,
-      displayName: this.authForm.value.firstName + ' ' + this.authForm.value.lastName,
-      first_name: this.authForm.value.firstName,
-      last_name: this.authForm.value.lastName,
-      mobile_number: this.authForm.value.mobileNumber, 
+      displayName: formData.value.firstName + ' ' + formData.value.lastName,
+      first_name: formData.value.firstName,
+      last_name: formData.value.lastName,
+      mobile_number: formData.value.mobileNumber, 
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
       accountType: this.type,
-      cost: this.type == 1 ? this.authForm.value.cost : null,
-      address: this.type == 1 ? this.authForm.value.address : null,
-      timing: this.type == 1 ? this.authForm.value.timing : null,
+      cost: this.type == 1 ? formData.value.cost : null,
+      address: this.type == 1 ? formData.value.address : null,
+      timing: this.type == 1 ? formData.value.timing : null,
 
     };
     return userRef.set(userData, {

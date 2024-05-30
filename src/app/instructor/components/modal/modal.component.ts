@@ -77,6 +77,16 @@ export class ModalComponent implements OnInit {
   }
 
   updateLesson() {
+    
+    if (this.lesson.progress == 100) {
+      this.mainService.getAllUsers().subscribe((users) => {
+        let currentUser = users.find((user:any)=>user.uid == this.user_id)
+        let completedLesson = currentUser?.completedLesson ? currentUser.completedLesson : 0
+        this.mainService.updateUserInfo(this.user_id, {bookedLesson: completedLesson + 1}).then(() => {
+          console.log('Profile updated successfully!');
+        });
+      });
+    }
     let student = this.availableStudents.find((student:any)=>student.uid == this.lesson.studentId)
     const lesson = {
       studentId: this.lesson.studentId,

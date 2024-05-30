@@ -13,8 +13,8 @@
             <button class="btn btn-light" [ngStyle]="{'background': selectedPayment == 'debit_card' ? 'mediumspringgreen' : ''}" style="margin-left: 10px;" (click)="selectedPayment = 'debit_card';bookLesson()">Debit Card</button>
             <button class="btn btn-light" [ngStyle]="{'background': selectedPayment == 'paypal' ? 'mediumspringgreen' : ''}" style="margin-left: 10px;" (click)="selectedPayment = 'paypal';bookLesson()">Paypal</button>
         </div>
-    <button style="width: 100%;" class="btn btn-light mt-2" (click)="cancel()">Cancel</button>
-    <button style="width: 100%;" class="btn btn-danger mt-2" (click)="Delete()">Cancel</button>
+    <button *ngIf="!isDelete" style="width: 100%;" class="btn btn-light mt-2" (click)="cancel()">Cancel</button>
+    <button *ngIf="isDelete" style="width: 100%;" class="btn btn-danger mt-2" (click)="Delete()">Cancel</button>
 </div>
 </div>
 

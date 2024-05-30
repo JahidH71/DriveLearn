@@ -15,7 +15,7 @@
             <div class="mb-3">
                 <label for="rating" class="form-label">Select Student</label>
                 <select class="form-select" id="rating" [(ngModel)]="lesson.studentId">
-                    <option value="null">=--Select Student---</option>
+                    <option value="null">---Select Student---</option>
                     <ng-container *ngFor="let student of availableStudents">
                         <option [value]="student.uid">{{student.displayName}}</option>
                     </ng-container>

@@ -1,4 +1,4 @@
-<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="this.type == 1? instructorForm :authForm" (ngSubmit)="onSubmit()">
   <h5 style="text-align: center;color: red;">{{errorMessage}}</h5>
   <ng-container *ngIf="!isLogin">
     <div class="form-group">

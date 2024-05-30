@@ -46,4 +46,10 @@ export class HeaderComponent {
   navigateToAllStudents() {
     if(this.isInstructor) this.router.navigate(['/instructor/students']);
   }
+  logout() {
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('accountType');
+    localStorage.removeItem('authToken');
+    if(this.isInstructor) this.router.navigate(['/login']);
+  }
 }

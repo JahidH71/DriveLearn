@@ -18,8 +18,11 @@ export class StudentPageComponent implements OnInit{
     ngOnInit(): void {
         this.getStudents()
     }
-    openModal() {
-      this.modalRef = this.modalService.show(ProfileComponent);
+    openModal(index:any) {
+      const initialState = {
+        userInfo: this.studentList[index]
+      }
+      this.modalRef = this.modalService.show(ProfileComponent, {initialState});
     }
     getStudents() {
             this.mainService.getAllUsers().subscribe(users=>{

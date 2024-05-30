@@ -19,7 +19,7 @@ export class MainService {
   }
 
   // Update user information
-  updateUserInfo(userId: string, data: any): Promise<void> {
+  updateUserInfo(userId: any, data: any): Promise<void> {
     return this.firestore.collection('users').doc(userId).update(data);
   }
   
@@ -148,7 +148,6 @@ bookLesson(studentId: any, lessonId: string): Promise<void> {
     studentId,
     lessonId,
     bookingDate: new Date(),
-    status: true
   };
   return this.firestore.collection('bookings').add(booking)
     .then(() => console.log('Lesson booked successfully'))
